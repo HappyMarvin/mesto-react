@@ -1,10 +1,13 @@
 import React from 'react';
 import api from '../utils/api';
+import Card from './Card'
 
 function Main (props) {
-  const [userName, SetUserName] = React.useState();
-  const [userDescription, SetUserDescription] = React.useState();
-  const [userAvatar, SetUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState();
+  const [cards, setCards] = React.useState([]);
+  const [userID, setUserID] = React.useState([]);
 
   React.useEffect(() => {
     Promise.all([
@@ -13,9 +16,11 @@ function Main (props) {
     ])
       .then(values => {
         const [userData, initialCards] = values;
-        SetUserName(userData.name);
-        SetUserDescription(userData.about);
-        SetUserAvatar(userData.avatar);
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setUserID(userData._id);
+        setCards(initialCards);
       })
       .catch(e => console.error(e.message))
   },[]);
@@ -37,7 +42,13 @@ function Main (props) {
           </section>
 
           <section className="gallery">
+            
             <ul className="gallery__list">
+              {cards.map(card => {
+                return (
+                  <Card card={card} userID={userID} onCardClick={props.onCardClick} key={card._id} />
+                )
+              })}
             </ul>
           </section>
         </div>

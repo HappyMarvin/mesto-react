@@ -1,7 +1,7 @@
 function Header() {
   return (
     <header className="header">
-      <a target="_blank" href="#" className="header__logo"></a>
+      <a href="https://happymarvin.github.io/mesto/" className="header__logo"> </a>
     </header>
   )
 }
