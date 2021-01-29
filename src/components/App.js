@@ -55,87 +55,77 @@ function App() {
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        children={
-          <>
-            <input type="text"
-              name="popup-name"
-              className="popup__text-input popup__text-input_name"
-              maxLength="40"
-              minLength="2"
-              required
-              id="profile-name"
-              placeholder="Имя" />
-            <span className="popup__error" id="profile-name-error"></span>
-            <input type="text"
-              name="popup-description"
-              className="popup__text-input popup__text-input_description"
-              maxLength="200"
-              minLength="2"
-              required
-              id="profile-description"
-              placeholder="Вид деятельности" />
-            <span className="popup__error" id="profile-description-error"></span>
-            <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit" disabled>Сохранить</button>
-          </>
-        }
-      />
+      >
+        <input type="text"
+          name="popup-name"
+          className="popup__text-input popup__text-input_name"
+          maxLength="40"
+          minLength="2"
+          required
+          id="profile-name"
+          placeholder="Имя" />
+        <span className="popup__error" id="profile-name-error"></span>
+        <input type="text"
+          name="popup-description"
+          className="popup__text-input popup__text-input_description"
+          maxLength="200"
+          minLength="2"
+          required
+          id="profile-description"
+          placeholder="Вид деятельности" />
+        <span className="popup__error" id="profile-description-error"></span>
+        <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit" disabled>Сохранить</button>
+      </PopupWithForm>
 
       <PopupWithForm 
         name="new-place" 
         title="Новое место"
         isOpen={isEAddPlacePopupOpen}
         onClose={closeAllPopups}
-        children={
-          <>
-            <input type="text"
-              name="popup-name"
-              className="popup__text-input popup__text-input_place-name"
-              maxLength="30"
-              minLength="2"
-              required
-              placeholder="Название"
-              id="place-name" />
-            <span className="popup__error" id="place-name-error"></span>
-            <input type="url"
-              required
-              name="popup-description"
-              className="popup__text-input popup__text-input_place-link"
-              placeholder="Ссылка на картинку"
-              id="place-description" />
-            <span className="popup__error" id="place-description-error"></span>
-            <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit">Создать</button>
-          </>
-        }
-      />
+      >
+        <input type="text"
+          name="popup-name"
+          className="popup__text-input popup__text-input_place-name"
+          maxLength="30"
+          minLength="2"
+          required
+          placeholder="Название"
+          id="place-name" />
+        <span className="popup__error" id="place-name-error"></span>
+        <input type="url"
+          required
+          name="popup-description"
+          className="popup__text-input popup__text-input_place-link"
+          placeholder="Ссылка на картинку"
+          id="place-description" />
+        <span className="popup__error" id="place-description-error"></span>
+        <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit">Создать</button>
+      </PopupWithForm>
 
-      <PopupWithForm 
-        name="add-avatar" 
+      <PopupWithForm
+        name="add-avatar"
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        children={
-          <>
-            <input type="url"
-              required
-              name="avatar-link"
-              className="popup__text-input popup__text-input_place-link"
-              placeholder="Ссылка на аватар"
-              id="avatar-link" />
-            <span className="popup__error" id="avatar-link-error"></span>
-            <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit">Сохранить</button>
-          </>
-        }
-      />
+      >
+        <input type="url"
+          required
+          name="avatar-link"
+          className="popup__text-input popup__text-input_place-link"
+          placeholder="Ссылка на аватар"
+          id="avatar-link" />
+        <span className="popup__error" id="avatar-link-error"></span>
+        <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit">Сохранить</button>
+      </PopupWithForm>
 
       <PopupWithForm 
         name="delete" 
         title="Вы уверены?"
         isOpen={false}
         onClose={closeAllPopups}
-        children={
+        >
           <button className="popup__submit" type="submit" name="popup-submit">Да</button>
-        }
-      />
+        </PopupWithForm>
     </div>
   );
 }

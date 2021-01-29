@@ -7,7 +7,7 @@ function Main (props) {
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
   const [cards, setCards] = React.useState([]);
-  const [userID, setUserID] = React.useState([]);
+  const [userID, setUserID] = React.useState('');
 
   React.useEffect(() => {
     Promise.all([
