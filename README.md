@@ -12,7 +12,7 @@
 телепортации к месту на карточке будут реализованы позже.
 
 Ссылка на проект:
-https://happymarvin.github.io/mesto/
+https://happymarvin.github.io/mesto-react/
 
 Чтобы собрать проект воспользуйтесь командой:
 npm run build
