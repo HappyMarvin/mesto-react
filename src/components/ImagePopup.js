@@ -23,7 +23,7 @@ function ImagePopup (props) {
     >
         <div className="popup__container">
           <img src={card ? card.link : '#'} alt="Фото места" className="popup__image" />
-          <h2 className="popup__image-title">{card ? card.link : ''}</h2>
+          <h2 className="popup__image-title">{card ? card.name : ''}</h2>
           <button 
             className="popup__close popup__close_image" 
             type="button" 
