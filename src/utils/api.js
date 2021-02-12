@@ -56,7 +56,7 @@ class Api {
   }
 
   deleteCard(data) {
-    return fetch(`${this._baseUrl}cards/${data.id}`, {
+    return fetch(`${this._baseUrl}cards/${data._id}`, {
       method: 'DELETE',
       headers: this._headers
     })
@@ -65,8 +65,8 @@ class Api {
       })
   }
 
-  switchLike(data, method) {
-    return fetch(`${this._baseUrl}cards/likes/${data.id}`, {
+  switchLike(card, method) {
+    return fetch(`${this._baseUrl}cards/likes/${card._id}`, {
       method: method,
       headers: this._headers
     })
