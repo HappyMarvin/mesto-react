@@ -78,7 +78,7 @@ function App() {
     api.addAvatar(url)
       .then(userData => {
         setCurrentUser(userData);
-        isEditAvatarPopupOpen(false);
+        setIsEditAvatarPopupOpen(false);
       })
       .catch(e => console.error(e.message))
   }

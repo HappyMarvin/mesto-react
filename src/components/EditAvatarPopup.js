@@ -1,25 +1,25 @@
 import PopupWithForm from './PopupWithForm';
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar}) {
   const [valid, setValid] = useState(false);
   const [validMessage, setValidMessage] = useState('');
-  const inputAvatar = useRef()
+  const [link, setLink] = useState('')
 
   useEffect(()=>{
     setValid(false);
-    inputAvatar.current.value = '';
+    setLink('');
     setValidMessage('');
   }, [isOpen])
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateAvatar({
-      avatar: inputAvatar.current.value,
-    });
+    console.log(link);
+    onUpdateAvatar(link);
   }
 
   function onChange(e) {
+    setLink(e.target.value)
     setValid(e.target.validity.valid);
     setValidMessage(e.target.validationMessage);
   }
@@ -38,7 +38,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar}) {
             className="popup__text-input popup__text-input_place-link"
             placeholder="Ссылка на аватар"
             id="avatar-link"
-            ref={inputAvatar}
+            value={link}
             onChange={onChange} />
           <span className="popup__error" id="avatar-link-error">{validMessage}</span>
           <button
