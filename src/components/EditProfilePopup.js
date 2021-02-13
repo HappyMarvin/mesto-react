@@ -5,19 +5,42 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [validDescription, setValidDescription] = useState(true);
+  const [validName, setValidName] = useState(true);
+  const [valid, setValid] = useState(false);
+  const [isChange, setIsChange] = useState(false);
+  const [validMessageName, setValidMessageName] = useState('');
+  const [validMessageDescription, setValidMessageDescription] = useState('');
   
   useEffect(() => {
-    setName(currentUser.name)
-    setDescription(currentUser.about)
+    setName(`${currentUser.name}`);
+    setDescription(`${currentUser.about}`);
+    setValid(false);
+    setIsChange(false);
+    setValidName(true);
+    setValidDescription(true);
+    setValidMessageName('');
+    setValidMessageDescription('');
   }, [currentUser, isOpen])
+
+  useEffect(() => {
+    setValid(validName && validDescription)
+  }, [validName, validDescription, isChange])
 
   function onChangeName(e) {
     setName(e.target.value)
+    setValidName(e.target.validity.valid)
+    setIsChange(true);
+    setValidMessageName(e.target.validationMessage || '')
   }
+
   function onChangeDescription(e) {
     setDescription(e.target.value)
+    setValidDescription(e.target.validity.valid);
+    setIsChange(true);
+    setValidMessageDescription(e.target.validationMessage)
   }
 
   function handleSubmit(e) {
@@ -46,7 +69,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Имя"
         value={name}
         onChange={onChangeName} />
-      <span className="popup__error" id="profile-name-error"></span>
+      <span className="popup__error" id="profile-name-error">{validMessageName}</span>
       <input type="text"
         name="popup-description"
         className="popup__text-input popup__text-input_description"
@@ -57,8 +80,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Вид деятельности"
         value={description}
         onChange={onChangeDescription} />
-      <span className="popup__error" id="profile-description-error"></span>
-      <button className="popup__submit popup__submit_disabled" type="submit" name="popup-submit">Сохранить</button>
+      <span className="popup__error" id="profile-description-error">{validMessageDescription}</span>
+      <button
+        className={`popup__submit ${valid ? '' : 'popup__submit_disabled'}`}
+        type="submit"
+        name="popup-submit"
+        disabled={!valid}
+      >Сохранить</button>
     </PopupWithForm>
   )
 }

@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
-import PopupWithForm from './PopupWithForm'
+import DeleteCardPopup from './DeleteCardPopup'
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -14,6 +14,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isDeleteCardPopup, setIsDeleteCardPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -26,7 +27,7 @@ function App() {
       .then(setCards)
       .catch(e => console.error(e.message))
   },[]);
-  //handles карточек
+  //handle карточек
   function handleCardLike (card, isLiked) {
     const method = isLiked ? 'DELETE' : 'PUT';
     api.switchLike(card, method)
@@ -37,14 +38,7 @@ function App() {
     .catch(e => console.error(e.message))
   }
 
-  function handleCardDelete (card) {
-    api.deleteCard(card)
-    .then(() => {
-      const newCards = cards.filter((c) => c._id !== card._id);
-      setCards(newCards);
-    })
-    .catch(e => console.error(e.message))
-  }
+  
   //Открываем/закрываем попапы
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -58,14 +52,19 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
+  function handleCardDelete(card) {
+    setIsDeleteCardPopup(card)
+  }
 
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(false);
+    setIsDeleteCardPopup(false);
   }
-  //Обрнаботка событий в попапах
+
+  //Обработка событий в попапах
   function handleUpdateUser(data) {
     api.setUserData(data)
       .then(userData => {
@@ -77,9 +76,29 @@ function App() {
 
   function handleUpdateAvatar(url) {
     api.addAvatar(url)
-    .then(userData => {
-      setCurrentUser(userData);
-      isEditAvatarPopupOpen(false);
+      .then(userData => {
+        setCurrentUser(userData);
+        isEditAvatarPopupOpen(false);
+      })
+      .catch(e => console.error(e.message))
+  }
+
+  function handleAddPlace (data) {
+    api.addCard(data)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        setIsAddPlacePopupOpen(false);
+      })
+      .catch(e => console.error(e.message))
+  }
+
+  function handleCardDeleteSubmit (card, evt) {
+    evt.preventDefault();
+    api.deleteCard(card)
+    .then(() => {
+      const newCards = cards.filter((c) => c._id !== card._id);
+      setCards(newCards);
+      setIsDeleteCardPopup(false);
     })
     .catch(e => console.error(e.message))
   }
@@ -115,6 +134,7 @@ function App() {
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
         />
 
         <EditAvatarPopup 
@@ -123,14 +143,12 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
 
-        <PopupWithForm
-          name="delete"
-          title="Вы уверены?"
-          isOpen={false}
+        <DeleteCardPopup
+          card={isDeleteCardPopup} 
           onClose={closeAllPopups}
-        >
-          <button className="popup__submit" type="submit" name="popup-submit">Да</button>
-        </PopupWithForm>
+          onDeleteCard={handleCardDeleteSubmit}
+        />
+        
       </div>
     </CurrentUserContext.Provider>
   );
